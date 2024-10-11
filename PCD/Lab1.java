@@ -1,5 +1,6 @@
 package PCD;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Lab1 {
@@ -52,10 +53,23 @@ class Th1 implements Runnable {
     @Override
     public void run() {
         var sum = 0;
-        for (int i = 0; i < Lab1.mas.length; i += 2) {
-            var sec = i + 1;
-            sum += i + sec;
-            System.out.println("Condiție 1:" + "i :" + i + " , i + 1:" + sec + ", Suma pozițiilor pare (de la început) este: " + sum);
+        var count = 0;
+        var arr = new ArrayList<Integer>();
+
+        for (int i = 0; i < Lab1.mas.length; i++) {
+            if (Lab1.mas[i] % 2 == 0) {
+                sum += i;
+                count++;
+
+                if (count == 2) {
+                    arr.add(sum);
+                    sum = 0;
+                    count = 0;
+                    var sumpos = arr.stream().mapToInt(x -> x).sum();
+
+                    System.out.println("Condiție 1:" + "fir:" + i + ", Suma pozițiilor pare (de la început) este: " + sumpos);
+                }
+            }
         }
     }
 }
@@ -64,10 +78,26 @@ class Th2 implements Runnable {
     @Override
     public void run() {
         var sum = 0;
-        for (int i = Lab1.mas.length - 2; i >= 0; i -= 2) {
-            var sec = i - 1;
-            sum += i + sec;
-            System.out.println("Condiție 2:" + "i :" + i + ", i + 1:" + sec + ", Suma pozițiilor pare (de la sfârșit) este: " + sum);
+        var count = 0;
+        var arr = new ArrayList<Integer>();
+
+        for (int i = Lab1.mas.length - 1; i > 0; i--) {
+            if (Lab1.mas[i] % 2 == 0) {
+                sum += i;
+                count++;
+
+                if (count == 2) {
+                    arr.add(sum);
+                    sum = 0;
+                    count = 0;
+                    var sumpos = arr.stream()
+                            .mapToInt(x -> x)
+                            .sum();
+
+                    System.out.println("Condiție 2:" + "fir:" + i + ", Suma pozițiilor pare (de la end) este: " + sumpos);
+
+                }
+            }
         }
     }
 }
