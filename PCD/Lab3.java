@@ -1,15 +1,21 @@
 package PCD;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
-import static PCD.Lab3.mas;
+import static PCD.Lab1.mas;
+import static java.lang.Thread.sleep;
 
 public class Lab3 {
-    static int[] mas = new int[100];
+    static int[] mass = new int[1000];
 
     public static void main(String[] args) {
+        Lab1.generate();
         generate();
+
+        System.out.println(Arrays.toString(mas));
+        System.out.println(Arrays.toString(mass));
 
         var fir1 = new Thr1();
         var fir2 = new Thr2();
@@ -35,99 +41,105 @@ public class Lab3 {
             e.printStackTrace();
         }
 
-        student();
+        fir2.printWithDelay("Nume: Haideu");
+        fir4.printWithDelay("Grupa: RM-221");
+        fir1.printWithDelay("Prenume: Victor");
+        fir3.printWithDelay("Disciplina: Programare Concurentă");
 
-    }
-
-    private static void student() {
-        for (char c : "Haideu Victor".toCharArray()) {
-            System.out.print(c);
-
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private static void generate() {
         var random = new Random();
-        for (int i = 0; i < 100; i++) {
-            mas[i] = random.nextInt(1000);
+        for (int i = 0; i < 1000; i++) {
+            mass[i] = random.nextInt(1000);
         }
     }
-}
 
-class Thr1 implements Runnable {
-    @Override
-    public void run() {
-        var sum = 0;
-        var count = 0;
-        var arr = new ArrayList<Integer>();
+    private static class Thr1 extends Disp implements Runnable {
+        @Override
+        public void run() {
+            var sum = 0;
+            var count = 0;
+            var arr = new ArrayList<Integer>();
 
-        for (int i = 0; i < Lab1.mas.length; i++) {
-            if (Lab1.mas[i] % 2 == 0 && Lab1.mas[i] > 15 && Lab1.mas[i] < 115) {
-                sum += i;
-                count++;
+            for (int i = 0; i < mas.length; i++) {
+                if (mas[i] % 2 == 0 && mas[i] > 15 && mas[i] < 115) {
+                    sum += i;
+                    count++;
 
-                if (count == 2) {
-                    arr.add(sum);
-                    sum = 0;
-                    count = 0;
-                    var sumpos = arr.stream().mapToInt(x -> x).sum();
+                    if (count == 2) {
+                        arr.add(sum);
+                        sum = 0;
+                        count = 0;
+                        var sumpos = arr.stream().mapToInt(x -> x).sum();
 
-                    System.out.println("Condiție 1:" + "fir:" + i + ", Suma pozițiilor pare (de la început) este: " + sumpos);
+                        System.out.println("Condiție 1:" + "fir:" + i + ", Suma pozițiilor pare (de la început) este: " + sumpos);
+                    }
                 }
             }
         }
     }
-}
 
-class Thr2 implements Runnable {
-    @Override
-    public void run() {
-        var sum = 0;
-        var count = 0;
-        var arr = new ArrayList<Integer>();
+    private static class Thr2 extends Disp implements Runnable {
+        @Override
+        public void run() {
+            var sum = 0;
+            var count = 0;
+            var arr = new ArrayList<Integer>();
 
-        for (int i = Lab1.mas.length - 1; i > 0; i--) {
-            if (Lab1.mas[i] % 2 == 0 && Lab1.mas[i] > 6 && Lab1.mas[i] < 106) {
-                sum += i;
-                count++;
+            for (int i = mas.length - 1; i > 0; i--) {
+                if (mas[i] % 2 == 0 && mas[i] > 6 && mas[i] < 106) {
+                    sum += i;
+                    count++;
 
-                if (count == 2) {
-                    arr.add(sum);
-                    sum = 0;
-                    count = 0;
-                    var sumpos = arr.stream()
-                            .mapToInt(x -> x)
-                            .sum();
+                    if (count == 2) {
+                        arr.add(sum);
+                        sum = 0;
+                        count = 0;
+                        var sumpos = arr.stream()
+                                .mapToInt(x -> x)
+                                .sum();
 
-                    System.out.println("Condiție 2:" + "fir:" + i + ", Suma pozițiilor pare (de la end) este: " + sumpos);
-
+                        System.out.println("Condiție 2:" + "fir:" + i + ", Suma pozițiilor pare (de la end) este: " + sumpos);
+                    }
                 }
             }
         }
     }
-}
 
-class Thr3 implements Runnable {
-    @Override
-    public void run() {
-        for (int i = 234; i < 987; i++) {
-            var num = mas[i];
-            System.out.println(num);
+    private static class Thr3 extends Disp implements Runnable {
+        @Override
+        public void run() {
+            for (int i = 234; i < 987; i++) {
+                var num = Lab3.mass[i];
+                System.out.println("Condiție 3:" + "fir:" + i + ", " + num);
+            }
+        }
+    }
+
+    private static class Thr4 extends Disp implements Runnable {
+        @Override
+        public void run() {
+            for (int i = 890; i >= 123; i--) {
+                var num = Lab3.mass[i];
+                System.out.println("Condiție 4:" + "fir:" + i + ", " + num);
+            }
+        }
+    }
+
+    abstract static class Disp implements Runnable {
+        public void printWithDelay(String msg){
+            for (char c : msg.toCharArray()) {
+                System.out.print(c);
+
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println();
         }
     }
 }
 
-class Thr4 implements Runnable {
-    @Override
-    public void run() {
-        for (int i = 890; i >= 123; i--) {
-            var num = mas[i];
-            System.out.println(num);
-        }
-    }
-}
