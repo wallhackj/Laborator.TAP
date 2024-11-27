@@ -14,20 +14,24 @@ public class Lab4 {
 
         Depo depo = new Depo(D);
         Productorul[] productorul = new Productorul[X];
+        var v1prod = new Thread[X];
         for (int i = 0; i < X; i++) {
             productorul[i] = new Productorul(depo, i + 1, Z * Y / X);
-            productorul[i].run();
+            v1prod[i] = new Thread(productorul[i]);
+            v1prod[i].start();
         }
 
         Consumer[] consumer = new Consumer[Y];
+        var v2cons = new Thread[Y];
         for (int i = 0; i < Y; i++) {
             consumer[i] = new Consumer(depo, i + 1, Z);
-            consumer[i].run();
+            v2cons[i] = new Thread(consumer[i]);
+            v2cons[i].start();
         }
 
     }
 
-    static class Depo {
+    private static class Depo {
         private final int capacity;
         private final Queue<Integer> items = new LinkedList<>();
 
@@ -37,7 +41,7 @@ public class Lab4 {
 
         public synchronized Optional<Integer> get() throws InterruptedException {
             while (items.isEmpty()) {
-                System.out.println("Depozit gol");
+//                System.out.println("Depozit gol");
                 wait();
             }
 
@@ -57,10 +61,21 @@ public class Lab4 {
         }
     }
 
-    static class Productorul implements Runnable {
+    private static class Productorul implements Runnable {
+        private final Depo depo;
+        private final int id;
+        private final int number;
+
+        public Productorul(Depo dep, int id, int number) {
+            this.depo = dep;
+            this.id = id;
+            this.number = number;
+        }
+
         @Override
         public void run() {
             Random random = new Random();
+
             try {
                 for (int i = 0; i < number; i++) {
                     var item = random.nextInt(100);
@@ -72,19 +87,9 @@ public class Lab4 {
                 currentThread().interrupt();
             }
         }
-
-        private final Depo depo;
-        private final int id;
-        private final int number;
-
-        public Productorul(Depo dep, int id, int number) {
-            this.depo = dep;
-            this.id = id;
-            this.number = number;
-        }
     }
 
-    static class Consumer implements Runnable {
+    private static class Consumer implements Runnable {
         private final Depo dep;
         private final int id;
         private final int number;

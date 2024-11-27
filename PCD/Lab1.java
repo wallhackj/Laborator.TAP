@@ -1,6 +1,7 @@
 package PCD;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Lab1 {
@@ -8,6 +9,8 @@ public class Lab1 {
 
     public static void main(String[] args) {
         generate();
+
+        System.out.println(Arrays.toString(mas));
 
         var fir1 = new Th1();
         var fir2 = new Th2();
@@ -63,7 +66,9 @@ public class Lab1 {
                         arr.add(sum);
                         sum = 0;
                         count = 0;
-                        var sumpos = arr.stream().mapToInt(x -> x).sum();
+                        var sumpos = arr.stream()
+                                .mapToInt(x -> x)
+                                .sum();
 
                         System.out.println("Condiție 1:" + "fir:" + i + ", Suma pozițiilor pare (de la început) este: " + sumpos);
                     }

@@ -45,7 +45,6 @@ public class Lab3 {
         fir4.printWithDelay("Grupa: RM-221");
         fir1.printWithDelay("Prenume: Victor");
         fir3.printWithDelay("Disciplina: Programare Concurentă");
-
     }
 
     private static void generate() {

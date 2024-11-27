@@ -52,6 +52,7 @@ public class Lab2 {
 
         System.out.println("All threads info:");
         printThreadsGroups(mainGroup);
+        mainGroup.list();
     }
 
     private static void printThreadsGroups(ThreadGroup group) {
@@ -74,7 +75,6 @@ public class Lab2 {
                 printThreadsGroups(g);
             }
         }
-
     }
 
     private static Runnable createTask(String s) {
