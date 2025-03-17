@@ -16,7 +16,6 @@ public class Lab3 {
     public static void main(String[] args) {
         ExecutorService executor = Executors.newFixedThreadPool(NUMAR_FILOZOFI);
 
-        // Inițializarea și pornirea filozofilor
         for (int i = 0; i < NUMAR_FILOZOFI; i++) {
             filosofi[i] = new Filosof(i, betisoare);
             executor.execute(filosofi[i]);
@@ -42,13 +41,13 @@ public class Lab3 {
             }
             betisoare = new Semaphore[n];
             for (int i = 0; i < n; i++) {
-                betisoare[i] = new Semaphore(1); // Fiecare betisoare poate fi luată de un singur filozof
+                betisoare[i] = new Semaphore(1);
             }
         }
 
 
         public static synchronized Betisoare getInstance(int n) {
-            if (instance == null) {
+            if (instance == null || instance.betisoare.length != n) {
                 instance = new Betisoare(n);
             }
             return instance;
