@@ -1,12 +1,51 @@
 package SO;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Lab1 {
+public class Lab1 extends JPanel {
+    public Lab1(JFrame frame) {
+
+    }
+
     public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                final JFrame frame = new JFrame("Lab 1");
+                final Lab1 ime = new Lab1(frame);
+                final JButton button = new JButton("Click Me");
+                frame.add(ime);
+                frame.pack();
+                frame.setVisible(true);
+                frame.add(button);
+                button.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        ini();
+                    }
+                });
+                frame.addWindowListener( new WindowAdapter() {
+                    @Override
+                    public void windowClosing(final WindowEvent arg0 ) {
+                        ime.close();
+                    }
+                } );
+
+            }
+        });
+    }
+
+    public void close() {
+        System.exit(1);
+    }
+
+    private static void ini() {
         var timer1 = new Timer();
         var timer2 = new Timer();
         var timer3 = new Timer();
